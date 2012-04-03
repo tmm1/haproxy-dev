@@ -55,6 +55,8 @@
 #define STAT_CLI_O_TAB  8   /* dump tables */
 #define STAT_CLI_O_CLR  9   /* clear tables */
 
+#define STAT_CLI_EVENTS 8   /* event stream */
+
 /* status codes (strictly 4 chars) used in the URL to display a message */
 #define STAT_STATUS_UNKN "UNKN"	/* an unknown error occured, shouldn't happen */
 #define STAT_STATUS_DONE "DONE"	/* the action is successful */
@@ -63,8 +65,11 @@
 #define STAT_STATUS_DENY "DENY"	/* action denied */
 
 extern struct si_applet http_stats_applet;
+extern int stats_event_enabled;
 
 void stats_io_handler(struct stream_interface *si);
+void stats_event_new_session(struct session *s);
+void stats_event_end_session(struct session *s);
 
 
 #endif /* _PROTO_DUMPSTATS_H */

@@ -10031,6 +10031,28 @@ shutdown sessions <backend>/<server>
   maintenance mode, for instance. Such terminated sessions are reported with a
   'K' flag in the logs.
 
+debug sess [proxy:<proxy_name>[:<server_name>]]
+
+  Dump a stream of events about sessions as they are added and removed.
+  The possible event formats are "Forward" and "Close":
+
+    "F <session_id> <in_peer> - <in_sock> | <out_sock> - <out_peer>\n"
+    "C <session_id>\n"
+
+  Streaming will continue until a new command is received or the
+  connection is closed. If <proxy_name> or <server_name> is specified, limit to
+  events concerning only the proxy and server specified.
+
+  This command is restricted and can only be issued on sockets configured
+  for levels "operator" or "admin".
+
+  Example:
+    >>> $ echo "set timeout cli 3600; debug sess" | socat stdio,ignoreeof /tmp/sock1
+        F 1 127.0.0.1:50869 - 127.0.0.1:9418 | 127.0.0.1:50870 - 127.0.0.1:6000
+        C 1
+        F 2 127.0.0.1:50874 - 127.0.0.1:9418 | 127.0.0.1:50875 - 127.0.0.1:6000
+        C 2
+
 /*
  * Local variables:
  *  fill-column: 79

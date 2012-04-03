@@ -169,6 +169,11 @@ struct stream_interface {
 				int bol;		/* pointer to beginning of current line */
 			} errors;
 			struct {
+				struct list list;	/* list of stats streams in the STAT_CLI_EVENTS state */
+				struct proxy *px;	/* if not NULL, only send events associated with this proxy */
+				struct server *srv;	/* if not NULL, only send events associated with this server */
+			} events;
+			struct {
 				void *target;		/* table we want to dump, or NULL for all */
 				struct proxy *proxy;	/* table being currently dumped (first if NULL) */
 				struct stksess *entry;	/* last entry we were trying to dump (or first if NULL) */
